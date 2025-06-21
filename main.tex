@@ -1,0 +1,36 @@
+\documentclass[12pt,a4paper,oneside]{iusosbil}
+\usepackage[top=4cm, bottom=2.5cm, left=4cm, right=2.5cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[turkish, shorthands=:!]{babel}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{enumitem}
+\usepackage{ragged2e}
+\justifying
+\usepackage{lipsum}
+\usepackage{bookmark}
+\usepackage{biblatex}
+\usepackage{csquotes}
+\usepackage{sectsty}
+
+
+% Unicode font ayarları
+\setmainfont{Times New Roman}
+\setsansfont{Arial}
+\begin{document}
+\include{kapak}
+\romanpagenumber
+\setcounter{page}{3}
+\include{önkısım}
+\arabicpagenumber
+\setcounter{page}{1}
+\include{bölüm_giriş}
+\include{bölüm_1}
+\include{bölüm_2}
+\include{bölüm_3}
+\include{bölüm_sonuç}
+\include{kaynakça}
+\include{bölüm_ekler}
+\end{document}
