@@ -1,30 +1,47 @@
+\setdefaultlanguage{turkish}  % Ana dili Türkçe olarak ayarlanır (polyglossia ile birlikte kullanılmalı)
 
-\chapterfont{}
-\chapter*{\centering ÖZ}
+% ---------- ÖZ ----------
+\chapter*{ÖZ}  % Numarasız bölüm başlığı
+\addcontentsline{toc}{chapter}{ÖZ}  % İçindekilere "ÖZ" başlığını ekle
 Bu çalışma...
 
+% ---------- ABSTRACT ----------
 \chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
 This study...
 
+% ---------- ÖNSÖZ ----------
 \chapter*{ÖNSÖZ}
+\addcontentsline{toc}{chapter}{ÖNSÖZ}
 Bu tez çalışması süresince...
-\newpage
 
-\tableofcontents
-% ---------------------
-% İçindekiler Biçimi
-% ---------------------
-\renewcommand{\cftchapfont}{\bfseries}
-\renewcommand{\cftsecfont}{\bfseries}
-\renewcommand{\cftsubsecfont}{\normalfont}
-\renewcommand{\cftchappagefont}{\bfseries}
+\newpage  % Sonraki sayfaya geç
+
+% ---------- İÇİNDEKİLER ----------
+\setcounter{tocdepth}{2}  % İçindekilerde sadece chapter, section ve subsection göster (4 yerine 2 önerilir)
+\tableofcontents  % İçindekiler
+
+% Başlık ve sayfa numarası yazı tiplerini özelleştir
+\renewcommand{\cftchapfont}{\bfseries}       % Chapter başlıkları kalın
+\renewcommand{\cftsecfont}{\bfseries}        % Section başlıkları kalın
+\renewcommand{\cftsubsecfont}{\normalfont}   % Subsection başlıkları normal
+\renewcommand{\cftchappagefont}{\bfseries}   % Sayfa numaralarını da kalın yap
 \renewcommand{\cftsecpagefont}{\bfseries}
 
 \newpage
-\listoffigures
-\listoftables
+
+% ---------- ŞEKİLLER LİSTESİ ----------
+\listoffigures  % Eğer belgede \begin{figure} varsa bu liste oluşur
+
+% ---------- TABLOLAR LİSTESİ ----------
+\listoftables   % Eğer belgede \begin{table} varsa bu liste oluşur
+
+\newpage
+
+% ---------- KISALTMALAR ----------
 \chapter*{KISALTMALAR}
-\begin{itemize}
-  \item T.C.: Türkiye Cumhuriyeti
-  \item vd.: ve diğerleri
-\end{itemize}
+\addcontentsline{toc}{chapter}{KISALTMALAR}
+\begin{description}[leftmargin=4cm]  % Genişlik ayarıyla hizalama düzgün olur
+  \item[T.C.] Türkiye Cumhuriyeti
+  \item[vd.] ve diğerleri
+\end{description}

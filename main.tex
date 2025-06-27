@@ -1,36 +1,71 @@
-\documentclass[12pt,a4paper,oneside]{iusosbil}
-\usepackage[top=4cm, bottom=2.5cm, left=4cm, right=2.5cm]{geometry}
-\usepackage[utf8]{inputenc}
-\usepackage[turkish, shorthands=:!]{babel}
-\usepackage{tocloft}
-\usepackage{fancyhdr}
-\usepackage{hyperref}
-\usepackage{fontspec}
-\usepackage{enumitem}
+\documentclass[12pt,a4paper,oneside,shorthands=:!]{iusosbil}
+% Özel sınıf dosyasını (iusosbil.cls) temel alır.
+% 12pt        : Yazı boyutu
+% a4paper     : A4 kağıt boyutu
+% oneside     : Tek yüzlü yazım
+% turkish     : Ana dil Türkçe
+% shorthands  : Bazı kısayolları devre dışı bırakır (özellikle ":" karakteri için)
+
+% ---------- Paketler ----------
+%\geometry{a4paper, margin=2.5cm} 
+% Sayfa kenar boşluklarını 2.5 cm olarak ayarlar (bu satır sınıf dosyasındaki ayarları geçersiz kılar).
+
+\usepackage{fontspec}         % Sistem yazı tiplerini kullanmak için (XeLaTeX ile zorunlu).
+\usepackage{polyglossia}      % Çok dilli destek sağlar.
+\setdefaultlanguage{turkish}  % Ana dili Türkçe olarak ayarlar (tireleme, tarih biçimi, çeviriler vs.).
+
+% Biçimlendirme ve başlıklar
+\usepackage{titlesec}         % Başlıkları biçimlendirmek için kullanılır (chapter, section, vs.).
+\titleformat{\chapter}{\centering\bfseries}{\thechapter.}{1em}{}% Chapter başlıklarını ortalar, kalın yapar ve başına numara koyar.
+\titleformat{\section}{\bfseries}{\thesection}{1em}{}% Section başlıklarını kalın ve numaralı yapar.
+% İçindekiler özelleştirmesi
+\usepackage{tocloft}  % İçindekiler, şekil ve tablo listelerini özelleştirmek için.
+% İçindekiler'de nokta çizgisi aktif
+\renewcommand{\cftdot}{.}         % Noktaları aktif et
+\setlength{\cftbeforesecskip}{0.5em}% İçindekilerde bölüm başlıkları arasında dikey boşluk.
+\renewcommand{\cftchapfont}{\bfseries}% İçindekilerde bölüm başlıklarını kalın yapar.
+\renewcommand{\cftsecfont}{\rmfamily}
+\renewcommand{\cftsubsecfont}{\rmfamily}% İçindekilerde alt başlıkları normal yazı tipiyle gösterir.
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\rmfamily}
+\renewcommand{\cftsubsecpagefont}{\rmfamily}% Sayfa numaralarının yazı tipini belirler.
 \usepackage{ragged2e}
-\justifying
-\usepackage{lipsum}
-\usepackage{bookmark}
-\usepackage{biblatex}
-\usepackage{csquotes}
-\usepackage{sectsty}
+% Paragrafları iki yana yaslamak için kullanılır (özellikle \justifying komutuyla birlikte).
+% Sayfa düzeni ve üstbilgi/altbilgi → sınıf dosyasından gelmiş olabilir, burada tanımlı değil.
 
+% Kaynakça yönetimi
+\usepackage[backend=biber,style=authoryear,sorting=nyt]{biblatex}
+% Kaynakça paketi: 
+% - biber motoru ile çalışır, 
+% - yazar-tarih stilini kullanır, 
+% - kaynakları yazar > yıl > başlığa göre sıralar.
 
-% Unicode font ayarları
-\setmainfont{Times New Roman}
-\setsansfont{Arial}
+\addbibresource{kaynakca.bib} % Kaynakların bulunduğu .bib dosyasını ekler.
+% Diğer yardımcı paketler
+\usepackage{hyperref} % PDF içi bağlantılar (içindekilerden tıklama gibi), URL'ler vb.
+\usepackage{microtype}% Tipografik düzeltmeler (karakter aralıkları, taşmalar vs.) için.
+\usepackage{bookmark} % PDF yer imlerini düzgün oluşturur (hyperref ile birlikte çalışır).
+\usepackage{caption} % Şekil ve tablo başlıklarını özelleştirmek için.
+\usepackage{enumitem} % Liste yapılarının (itemize, enumerate) biçimini özelleştirmek için.
+\usepackage{lipsum} % Sahte metin üretmek için (tasarım/test amaçlıdır; yayında çıkarılmalı).
+\usepackage{setspace}
+\setstretch{1.5} % Satır aralığını 1.5 yapar (tez formatı için yaygın).
+
+% ---------- Belge Başlangıcı ----------
 \begin{document}
-\include{kapak}
-\romanpagenumber
-\setcounter{page}{3}
-\include{önkısım}
-\arabicpagenumber
-\setcounter{page}{1}
-\include{bölüm_giriş}
-\include{bölüm_1}
-\include{bölüm_2}
-\include{bölüm_3}
-\include{bölüm_sonuç}
-\include{kaynakça}
-\include{bölüm_ekler}
+\justifying     % Paragrafları iki yana yasla (ragged2e paketi ile çalışır)
+\include{kapak}% kapak.tex dosyasını dahil eder (başlık, öğrenci adı, enstitü vs.)
+\pagenumbering{roman}% Sayfa numaralarını Roma rakamı olarak başlatır (I, II, III, …)
+\setcounter{page}{3} % İlk iki sayfa (kapak, onay) numarasız varsayılıyorsa, gerçek numarayı 3'ten başlatır
+\include{önkısım}% önkısım.tex: Teşekkür, özet, abstract, içindekiler vb. yer alır
+\pagenumbering{arabic}% Sayfa numaralarını normal (1, 2, 3, …) olarak sıfırlar
+\setcounter{page}{1}% Ana metin (giriş bölümü) 1. sayfadan başlar
+\include{bölüm_giriş} % bölüm_giriş.tex dosyasını dahil eder
+\include{bölüm_1} % bölüm_1.tex dosyasını dahil eder (1. bölüm)
+\include{bölüm_2} % bölüm_2.tex dosyasını dahil eder (2. bölüm)
+\include{bölüm_3} % bölüm_3.tex dosyasını dahil eder (3. bölüm)
+\include{bölüm_sonuç} % bölüm_sonuç.tex dosyasını dahil eder
+\include{kaynakça} % kaynakça.tex dosyasını dahil eder (çoğunlukla \printbibliography içerir)
+\include{bölüm_ekler} % bölüm_ekler.tex dosyasını dahil eder (ekler, tablolar, görseller vs.)
+
 \end{document}
