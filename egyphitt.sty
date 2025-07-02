@@ -1,0 +1,110 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{egyphitt}[2025/07/02 Egyptian, Hittite, and Cuneiform Unicode Support]
+
+% XeLaTeX veya LuaLaTeX gerektirir
+\RequirePackage{ifxetex} % XeTeX derleyici kontrolü için
+\RequirePackage{ifluatex} % LuaTeX derleyici kontrolü için
+
+\ifxetex
+  % Eğer XeLaTeX ile derleniyorsa sorun yok
+\else
+  \ifluatex
+    % Eğer LuaLaTeX ile derleniyorsa sorun yok
+  \else
+    % Değilse, hata mesajı ver ve derlemeyi durdur
+    \PackageError{egyphitt}{This package requires XeLaTeX or LuaLaTeX}{Please compile with XeLaTeX or LuaLaTeX for Unicode support.}
+  \fi
+\fi
+
+% Fontspec, unicode-math ve xparse paketlerini yüklüyoruz
+% Bu paketler Unicode ve gelişmiş font yönetimi için gerekli
+\RequirePackage{fontspec}
+\RequirePackage{unicode-math}
+\RequirePackage{xparse} % Yeni eklenen, gelişmiş komut tanımlama için
+
+% --- FONT TANIMLARI ---
+
+% Mısıroloji transliterasyonu için Junicode fontu (Latin bazlı)
+\newfontfamily\egyptfont[
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+]{Junicode}
+
+% Hititoloji transliterasyonu için Gentium Plus fontu
+\newfontfamily\hittitefont{Gentium Plus}
+
+% Hiyeroglifler için Aegyptus fontu
+\newfontfamily\hiero{Aegyptus}
+
+% Çivi yazısı için UllikummiA fontu
+\newfontfamily\cuneiform{UllikummiA}
+
+% --- GÖRÜNÜM VE ORTAM TANIMLARI ---
+
+% Girinti miktarını tutacak uzunluk değişkeni
+\newlength{\egyphittindent}
+\setlength{\egyphittindent}{2em} % 2em girinti ayarlanıyor
+
+% Hiyeroglif ortamı
+% List ortamı kullanılarak sol kenardan girintili ve hiyeroglif fontu + büyük boyut ile gösterim
+\newenvironment{hieroglyphs}
+  {\begin{list}{}{\setlength{\leftmargin}{\egyphittindent}}\item\hiero\Large}
+  {\end{list}}
+
+% Mısıroloji transliterasyonu ortamı
+% Sol kenardan girintili, Junicode fontu kullanılarak gösterim
+\newenvironment{etranslit}
+  {\begin{list}{}{\setlength{\leftmargin}{\egyphittindent}}\item\egyptfont}
+  {\end{list}}
+
+% Çivi yazısı ortamı
+% Sol kenardan girintili, çivi yazısı fontu + büyük boyut
+\newenvironment{cuneiformtext}
+  {\begin{list}{}{\setlength{\leftmargin}{\egyphittindent}}\item\cuneiform\Large}
+  {\end{list}}
+
+% --- ÖZEL KOMUTLAR ---
+
+% Tahrip (lacuna) işaretleri
+% Kapsayıcı parantez içinde verilen metni gösterir
+\newcommand{\lacuna}[1]{⸢#1⸣} % ⸢ ve ⸣ işaretleri ile sarar
+\newcommand{\lacunauncertain}[1]{⟦#1⟧} % Belirsiz tahrip için ⟦ ve ⟧
+
+% Unicode karakter kısayolları
+\newcommand{\alef}{ʾ}   % Alef harfi (İbranice, Arapça'da)
+\newcommand{\ayin}{ʿ}   % Ayin harfi
+\newcommand{\lsubdot}[1]{\d{#1}} % Alt noktalı harf oluşturur (örneğin lsubdot{c} → ċ)
+
+% --- Hititçe transliterasyon ortamı ---
+% Büyük harflerle yazılan kelimeler düz (roman), diğerleri italik yazılır
+% Burada LaTeX3 (expl3) kodları ile gelişmiş işlem yapılıyor
+
+\ExplSyntaxOn
+\NewDocumentEnvironment{htranslit}{+b} % Ortamın parametresi +b (tam blok)
+ {
+   % Ortam başında:
+   \begin{list}{}{\setlength{\leftmargin}{\egyphittindent}} % Girintili liste başlat
+   \item\hittitefont % Gentium Plus fontunu seç
+   \htr_process:n { #1 } % İçeriği işle
+ }
+ {
+   % Ortam sonunda:
+   \end{list}
+ }
+
+% İçeriği işleyecek fonksiyon tanımı
+\cs_new_protected:Nn \htr_process:n
+ {
+   \clist_map_inline:nn { #1 }
+     {
+       % ##1 = listedeki bir kelime (boşluklarla ayrılmış)
+       % Eğer kelime tamamen büyük harf ise:
+       \tl_if_eq:nnTF {##1} { \tl_upper_case:n {##1} }
+         { \textup{##1} } % Roman (düz) yaz
+         { \textit{##1} } % Değilse italik yaz
+       \space % kelimeler arası boşluk
+     }
+ }
+\ExplSyntaxOff
