@@ -1,0 +1,10 @@
+örnek.tex dosyası sty dosyasını denemek için yapılmıştır. lütfen ana bölümle beraber derlemeyiniz hata alırsınız. 
+
+iusosbil.cls dosyası istanbul üniversitesi sosyal bilimler enstitüsü tez hazırlama yönergesine göre yapılmıştır. hala yapım aşamasındadır. halihazırda gözden kaçan hatalar olabilir. 
+
+aşama aşama bir sosyalbilimcinin LaTeX'i nasıl kullanacağını gösteren bilgiler de buraya eklenecektir. bu daha spesifik olarak unicode desteğinden dolayı XeLaTeX üzerine olacaktır.
+
+1- korkmayın 
+2- chatgpt bu konuda yardımcınızdır.
+3- size ne lazım onu bulun
+
