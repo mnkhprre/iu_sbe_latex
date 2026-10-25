@@ -1,0 +1,122 @@
+%!TEX root = main.tex
+% ==============================================================================
+% İSTANBUL ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ
+% ÖN KISIM (Madde 8/A)
+% ==============================================================================
+
+% Madde 3/a: Numaralama iç kapaktan başlar ancak ilk gösterilen sayfa Öz sayfasıdır ve (iii)'tür.
+\baslatOnKisim
+
+% ------------------------------------------------------------------------------
+% 1. ÖZ (TÜRKÇE) (Madde 11)
+% Sayfa başında tezin başlığı ve yazar adı yer almalıdır (250 kelimeyi geçmemelidir).
+% İtalik yazı, simge, formül içermemelidir (Madde 5/c).
+% ------------------------------------------------------------------------------
+\chapter*{ÖZ}
+\addcontentsline{toc}{chapter}{ÖZ}
+
+\begin{center}
+    {\bfseries\fontsize{14pt}{16pt}\selectfont TEZİN BAŞLIĞI BURAYA GELECEK}\\[0.4cm]
+    {\bfseries Adı SOYADI}
+\end{center}
+
+\vspace{0.8cm}
+
+Bu çalışmada, İstanbul Üniversitesi Sosyal Bilimler Enstitüsü tez hazırlama yönergesine uygun olarak belirlenen araştırma problemi, yöntemi ve elde edilen temel bulgular özetlenmektedir. Araştırmada incelenen sorunsal, kullanılan kavramsal çerçeve, yöntem ve teknikler ile varılan sonuçlar bu kısımda özlü ve açık bir dille ortaya konulmuştur. Öz metni 250 kelimeyi aşmayacak şekilde yapılandırılmıştır.
+
+\vspace{1cm}
+\noindent\textbf{Anahtar Kelimeler:} Sosyal Bilimler, Tez Yazımı, İstanbul Üniversitesi, LaTeX Şablonu, Akademik Standartlar.
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 2. ABSTRACT (İNGİLİZCE) (Madde 11)
+% İngilizce başlık ve yazar adı ile başlar (250 kelimeyi geçmemelidir).
+% ------------------------------------------------------------------------------
+\begin{otherlanguage}{english}
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{ABSTRACT}
+
+\begin{center}
+    {\bfseries\fontsize{14pt}{16pt}\selectfont THESIS TITLE IN ENGLISH}\\[0.4cm]
+    {\bfseries Author NAME SURNAME}
+\end{center}
+
+\vspace{0.8cm}
+
+In this thesis, the research questions, methodology, and primary findings are summarized in accordance with the Istanbul University Institute of Social Sciences thesis preparation guidelines. The conceptual framework, qualitative/quantitative methods, and conclusive findings are presented concisely without exceeding 250 words.
+
+\vspace{1cm}
+\noindent\textbf{Keywords:} Social Sciences, Thesis Guidelines, Istanbul University, LaTeX Template, Academic Standards.
+\end{otherlanguage}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 3. ÖNSÖZ (Madde 12)
+% Tezin amacı, önemi, karşılaşılan güçlükler ve teşekkür içerir. En fazla 2 sayfadır.
+% ------------------------------------------------------------------------------
+\chapter*{ÖNSÖZ}
+\addcontentsline{toc}{chapter}{ÖNSÖZ}
+
+Bu tez çalışması, İstanbul Üniversitesi Sosyal Bilimler Enstitüsü bünyesinde yürütülmüş olup alan yazına katkı sağlamayı amaçlamaktadır.
+
+Çalışmanın her aşamasında değerli bilgi, öneri ve eleştirileriyle yol gösteren, desteğini esirgemeyen saygıdeğer danışmanım Sayın Prof. Dr. Adı SOYADI'na en içten teşekkürlerimi sunarım.
+
+Ayrıca, araştırmam süresince maddi ve manevi desteklerini daima yanımda hissettiğim aileme ve çalışma arkadaşlarıma teşekkür ederim.
+
+\vspace{1.5cm}
+\begin{flushright}
+    Adı SOYADI\\
+    İstanbul, 20XX
+\end{flushright}
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 4. İÇİNDEKİLER (Madde 13)
+% Öz'den başlayarak tezin tüm kısımlarını sayfa numaralarıyla listeler.
+% ------------------------------------------------------------------------------
+\tableofcontents
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 5. TABLOLAR VE ŞEKİLLER LİSTELERİ (Madde 14)
+% ------------------------------------------------------------------------------
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+
+\clearpage
+
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+
+\clearpage
+
+% ------------------------------------------------------------------------------
+% 6. KISALTMALAR LİSTESİ (Madde 15)
+% Alfabetik sırayla alt alta dizilir, karşısında açık halleri yer alır.
+% ------------------------------------------------------------------------------
+\chapter*{KISALTMALAR}
+\addcontentsline{toc}{chapter}{KISALTMALAR}
+
+\begin{description}[leftmargin=3.5cm, style=nextline]
+    \item[a.e.] Aynı eser
+    \item[a.g.e.] Adı geçen eser
+    \item[a.y.] Aynı yer
+    \item[bs.] Basım
+    \item[bsk.] Baskı
+    \item[C.] Cilt
+    \item[Çev.] Çeviren
+    \item[Ed.] Editör
+    \item[İ.Ü.] İstanbul Üniversitesi
+    \item[No.] Numara
+    \item[s.] Sayfa
+    \item[SBE] Sosyal Bilimler Enstitüsü
+    \item[T.C.] Türkiye Cumhuriyeti
+    \item[t.y.] Tarih yok
+    \item[v.d.] Ve diğerleri
+    \item[y.y.] Yayım yeri yok / Yayımcı yok
+\end{description}
+

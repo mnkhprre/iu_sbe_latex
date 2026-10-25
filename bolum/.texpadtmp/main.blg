@@ -1,0 +1,14 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is '/Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/.texpadtmp/main.blg'
+[90] biber-darwin:342> INFO - === Sun Oct 25, 2026, 23:36:17
+[109] Biber.pm:421> INFO - Reading '/Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/.texpadtmp/main.bcf'
+[215] Biber.pm:1002> INFO - Found 5 citekeys in bib section 0
+[234] Biber.pm:4487> INFO - Processing section 0
+[247] Biber.pm:4678> INFO - Looking for bibtex file '/Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/kaynakca.bib' for section 0
+[248] bibtex.pm:1713> INFO - LaTeX decoding ...
+[263] bibtex.pm:1519> INFO - Found BibTeX data source '/Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/kaynakca.bib'
+[338] UCollate.pm:68> INFO - Overriding locale 'tr-TR' defaults 'variable = shifted' with 'variable = non-ignorable'
+[338] UCollate.pm:68> INFO - Overriding locale 'tr-TR' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[338] Biber.pm:4307> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'tr-TR'
+[344] bbl.pm:676> INFO - Writing '/Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/.texpadtmp/main.bbl' with encoding 'UTF-8'
+[349] bbl.pm:779> INFO - Output to /Users/mustafabilgin/Documents/GitHub/iu_sbe_latex/bolum/.texpadtmp/main.bbl

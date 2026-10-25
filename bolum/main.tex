@@ -1,0 +1,41 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+% ==============================================================================
+% İSTANBUL ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ TEZ ŞABLONU
+% Bu şablon İ.Ü. SBE Tez Hazırlama Yönergesi esas alınarak hazırlanmıştır.
+% Derleme Motoru: XeLaTeX (veya LuaLaTeX) + Biber (kaynakça için)
+% ==============================================================================
+\documentclass[12pt,a4paper,oneside]{iusosbil}
+
+% İhtiyaç duyulabilecek ek paketler
+\usepackage{lipsum}      % Test amaçlı sahte metin üretici (tez tesliminde kaldırınız)
+\usepackage{egyphitt}    % Hititçe, Mısıroloji ve Çivi Yazısı desteği
+
+\begin{document}
+\justifying              % Madde 4/b: Satırları iki yana yasla
+
+% ==============================================================================
+% A. ÖN KISIM (Madde 8/A)
+% ==============================================================================
+
+% 1. İç Kapak (Madde 9 & Örnek 1 - Sayfa numarası görünmez, sayfa i kabul edilir)
+\include{kapak.tex}
+\include{chap_approve.tex} % 2. Tez Onay Sayfası (Madde 10 - Sayfa numarası görünmez, sayfa ii kabul edilir)
+% 3. Öz (iii), Abstract (iv), Önsöz, İçindekiler, Tablo/Şekil/Kısaltma Listeleri
+% Madde 3/a uyarınca numaralar sağ alt köşede (iii) ile başlar.
+\include{chap_frontmatter.tex}
+
+% ==============================================================================
+% B. METİN KISMI (Madde 8/B)
+% Giriş'ten itibaren Arap rakamlarıyla (1, 2, 3...) numaralandırma başlar (Madde 16/a).
+% ==============================================================================
+\baslatMetin
+\include{chap_intro.tex} % Giriş Bölümü (Madde 16/a, b) - Numarasızdır
+\include{chap_1.tex} % Tezin Bölümleri (Madde 16/c, d - Giriş hariç en az üç bölümden oluşur)
+\include{chap_2.tex}
+\include{chap_3.tex}
+\include{chap_result.tex} % Sonuç Bölümü (Madde 16/e) - Numarasızdır
+\include{bibliyografi.tex} % Kaynakça / Bibliyografya (Madde 22) % Ekler (Madde 23)
+\include{chap_attach.tex}% Özgeçmiş (Madde 8/B ve Madde 3 - Doktora tezleri için zorunludur)
+\include{CV.tex}
+\end{document}

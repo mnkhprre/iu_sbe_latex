@@ -1,0 +1,38 @@
+# Hititçe Transliterasyon Sözlüğü
+# [akkadogram] veya [sumerogram] başlıkları altına istediğiniz kelimeleri ekleyebilirsiniz.
+
+[akkadogram]
+I-NA
+A-NA
+ŠA
+-ŠU
+-ŠI
+Ù
+QA-DU
+A-DI
+IT-TI
+MA-A
+U-UL
+MA-AD-NA-NU
+
+[sumerogram]
+É
+KUR
+LÚ
+GUD
+DIM
+UTU
+GIGIR
+GIGIR.MEŠ
+GIGIR MEŠ
+KU.BABBAR
+ŠEŠ
+LUGAL.GAL
+LUGAL
+TÚL
+D.MEŠ
+DINGIR.MEŠ
+ERÍN.MEŠ
+ERÍN MEŠ
+IM
+D

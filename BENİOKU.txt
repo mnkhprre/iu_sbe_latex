@@ -1,10 +1,103 @@
-örnek.tex dosyası sty dosyasını denemek için yapılmıştır. lütfen ana bölümle beraber derlemeyiniz hata alırsınız. 
+# İSTANBUL ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ (İ.Ü. SBE)
+# TEZ HAZIRLAMA LATEX ŞABLONU
 
-iusosbil.cls dosyası istanbul üniversitesi sosyal bilimler enstitüsü tez hazırlama yönergesine göre yapılmıştır. hala yapım aşamasındadır. halihazırda gözden kaçan hatalar olabilir. 
+Bu şablon, "İstanbul Üniversitesi Sosyal Bilimler Enstitüsü Tez Hazırlama Yönergesi" (tez_hazırlama_yönergesi.pdf) esas alınarak hazırlanmış ve güncellenmiştir.
 
-aşama aşama bir sosyalbilimcinin LaTeX'i nasıl kullanacağını gösteren bilgiler de buraya eklenecektir. bu daha spesifik olarak unicode desteğinden dolayı XeLaTeX üzerine olacaktır.
+---
 
-1- korkmayın 
-2- chatgpt bu konuda yardımcınızdır.
-3- size ne lazım onu bulun
+## 📌 Yönergeye Göre Yapılan Temel Düzenlemeler
 
+1. **Sayfa Kenar Boşlukları (Madde 4/a):**
+   - Sol: 4 cm, Üst: 4 cm
+   - Sağ: 2.5 cm, Alt: 2.5 cm
+   - `iusosbil.cls` içinde `geometry` paketi ile ayarlanmıştır.
+
+2. **Satır Aralıkları ve Hizalama (Madde 4/b):**
+   - Tez metni iki yana yaslı (`justified`) ve 1,5 satır aralığı ile yazılır (`\setstretch{1.5}`).
+   - Dipnotlar, blok alıntılar, tablo/şekil listeleri tek satır aralıklıdır.
+
+3. **Sayfa Numaralandırma (Madde 3 ve Madde 16/a):**
+   - Numaralar sayfaların **sağ alt köşesinde** yer alır (`\fancyfoot[R]{\thepage}`).
+   - İç kapak (i) ve Tez onay sayfasında (ii) numara görünmez.
+   - Numaralandırma ilk olarak **Öz sayfasından ve Romen rakamıyla (iii)** başlar.
+   - Metin kısmı (GİRİŞ'ten itibaren) **Arap rakamlarıyla 1'den** başlar ve Ekler ile Özgeçmiş sonuna kadar devam eder.
+
+4. **Yazı Tipi ve Başlık Puntoları (Madde 5/a):**
+   - Tez metni: Times New Roman 12 punto.
+   - Başlıklar (kısım, bölüm, altbölüm): 14 punto, kalın (bold).
+   - İç Kapak (Örnek 1): Tez Başlığı 18 punto, diğer bilgiler 14 punto.
+
+5. **Dipnot Kuralları (Madde 4/b, 5/a, 19/a):**
+   - 10 punto ve tek satır aralıklıdır.
+   - Sayfa altında kısa çizgiyle ayrılır.
+   - **Her bölümde dipnot sayacı yeniden 1'den başlar** (`\counterwithin*{footnote}{chapter}`).
+
+6. **Uzun Alıntılar / Blok Aktarmalar (Madde 4/b, 18/e):**
+   - Bir cümleyi aşan aktarmalar için `\begin{uzunalinti} ... \end{uzunalinti}` ortamı oluşturulmuştur (tek satır aralığı, küçük punto, soldan girintili ve çift satır boşlukla ayrılmış).
+
+7. **Tezin Kısımları ve Sırası (Madde 8):**
+   - **Ön Kısım:**
+     * `kapak.tex` (İç kapak - Örnek 1'e göre 18pt başlık, 14pt künye)
+     * `onay.tex` (Tez Onay Sayfası - Madde 10)
+     * `önkısım.tex` (Öz - Madde 11 uyarınca başında başlık ve yazar adı ile başlar; Abstract; Önsöz - Madde 12; İçindekiler - Madde 13; Şekiller Listesi; Tablolar Listesi; Kısaltmalar Listesi - Madde 15)
+   - **Metin Kısmı:**
+     * `bölüm_giriş.tex` (Giriş bölümü - numarasız, 1. sayfadan başlar)
+     * `bölüm_1.tex`, `bölüm_2.tex`, `bölüm_3.tex` (En az 3 bölüm kuralı - Madde 16/d)
+     * `bölüm_sonuç.tex` (Sonuç bölümü - numarasız)
+     * `kaynakça.tex` & `kaynakca.bib` (Alfabetik kaynakça - Madde 22, yönergedeki örneklerle zenginleştirildi)
+     * `bölüm_ekler.tex` (Ekler - Madde 23)
+     * `özgeçmiş.tex` (Sadece doktora tezleri için zorunlu - Madde 8/B)
+
+---
+
+## 🛠️ Nasıl Derlenir?
+
+Şablon UTF-8 Unicode karakterlerini ve sistem yazı tiplerini (Times New Roman, transliterasyon fontları) desteklediği için **XeLaTeX** veya **LuaLaTeX** ile derlenmelidir.
+
+Tavsiye edilen derleme adımları:
+```bash
+xelatex main.tex
+biber main
+xelatex main.tex
+xelatex main.tex
+```
+
+Eğer Overleaf kullanıyorsanız:
+- Menüden **Compiler** ayarını `XeLaTeX` olarak seçmeniz yeterlidir.
+
+Eğer Texpad / Texifier kullanıyorsanız:
+- Proje dosyalarına Texpad "Magic Comment" direktifleri eklenmiştir:
+  * `main.tex` ve `örnek.tex` başında: `%!TEX TS-program = xelatex` ve `%!TEX encoding = UTF-8 Unicode`
+  * Alt bölümlerde: `%!TEX root = main.tex`
+- **TexpadTeX (Dahili Motor):** Texpad'in dahili motoru XeLaTeX fontspec modunda sistem fontlarını ve TeXLive fontlarını (`TeX Gyre Termes`) doğrudan tanır. Şablon, TexpadTeX sandbox ortamında font bulunamaması durumunda otomatik olarak `TeX Gyre Termes` (Times dengi) fontuna düşecek şekilde korumalı yapılmıştır.
+- **Harici Motor (MacTeX):** Çok karmaşık transliterasyon veya biber kaynakça motoru adımları için Texpad menüsünden `Typesetting Engine -> External Typesetter (MacTeX)` seçeneği de tam uyumlulukla kullanılabilir.
+- Mısır hiyeroglifleri veya Hititçe için gereken font dosyalarını (`.otf`/`.ttf`) proje dizinine veya `fonts/` klasörüne koyduğunuzda TexpadTeX bunları doğrudan görebilir.
+
+---
+
+## 🏛️ Hititçe Transliterasyon Kullanımı (egyphitt.sty)
+
+Hititoloji standartlarında (Sümerogram düz, Akkadogram italik büyük, Hititçe italik küçük, determinatifler üst simge düz) metin dizmek için `htranslit` ortamı ve semantik komutlar tanımlanmıştır:
+
+```latex
+\begin{htranslit}
+  \satir{9} [[EGIR-an-da]-ma \INA{} \dUR{Za-la-pa} pa-a[..............]-un |] \\
+  \satir{10} [[na-an]\lacuna{ḫa}r-ni-in-ku-un nu-uš-ši \sumer{D.MEŠ}-\sumer{ŠU} ša-ra-a da-aḫ-ḫu-un|] \\
+  \satir{11} [\U{} 3 \dGIS{\sumer{GIGIR.MEŠ}} \akk{MA-AD-NA-NU} \ANA{} \dD{\sumer{UTU}} \dUR{\sumer{TÚL}-na} pí-aḫ-ḫu-un|] \\
+  \tabletrule
+  \satir{12} [1 \sumer{GUD} \sumer{KÙ.BABBAR} 1 \sumer{GEŠPU} \sumer{KÙ.BABBAR} \INA{} \dE{\dD{\sumer{IM}}} pí-aḫ-ḫu-un |]
+\end{htranslit}
+```
+
+- **Determinatifler:** `\dUR{...}` ($^{\text{URU}}$), `\dD{...}` ($^{\text{D}}$), `\dM{...}` ($^{\text{m}}$), `\dF{...}` ($^{\text{f}}$), `\dGIS{...}` ($^{\text{GIŠ}}$), `\dLU{...}` ($^{\text{LÚ}}$), `\dKUR{...}` ($^{\text{KUR}}$), `\dE{...}` ($^{\text{É}}$) veya genel `\detf{...}`.
+- **Akkadogramlar:** `\akk{I-NA}` veya hazır `\INA`, `\ANA`, `\SA`, `\U`, `\QADU` vb.
+- **Sümerogramlar:** `\sumer{LUGAL}` (büyük harf düz).
+- **Epigrafik İşaretler:** `\lacuna{...}` (⸢...⸣), `\damage{...}` ([...]), `\omission{...}` (⟨...⟩), `\tabletrule` (bölümleme çizgisi), `\satir{...}` (satır numarası).
+
+---
+
+## 📂 Dosya Açıklamaları
+- `main.tex`: Ana tez çatısı. Diğer tüm bölümleri sırasıyla birleştirir.
+- `iusosbil.cls`: İ.Ü. SBE yönergesi kurallarını içeren LaTeX sınıf dosyası.
+- `egyphitt.sty`: Mısır hiyeroglifleri, Hititçe ve Çivi yazısı transliterasyon paketi.
+- `örnek.tex`: `egyphitt.sty` paketinin transliterasyon ortamlarını bağımsız test etmek için örnek dosya.

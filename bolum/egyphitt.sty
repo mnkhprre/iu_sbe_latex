@@ -1,0 +1,458 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{egyphitt}[2026/10/25 v2.0 Egyptian, Hittite, and Cuneiform Unicode & Transliteration Support]
+
+% XeLaTeX veya LuaLaTeX gerektirir
+\RequirePackage{ifxetex}
+\RequirePackage{ifluatex}
+
+\ifxetex
+  % XeLaTeX desteği
+\else
+  \ifluatex
+    % LuaLaTeX desteği
+  \else
+    \PackageError{egyphitt}{This package requires XeLaTeX or LuaLaTeX}{Please compile with XeLaTeX or LuaLaTeX for Unicode support.}
+  \fi
+\fi
+
+\RequirePackage{fontspec}
+\RequirePackage{setspace}
+\RequirePackage{environ}
+\RequirePackage{etoolbox}
+\RequirePackage{expl3}
+
+% --- FONT TANIMLARI ---
+
+% Mısıroloji transliterasyonu için Junicode fontu
+\IfFontExistsTF{Junicode}{%
+  \newfontfamily\egyptfont[
+    UprightFont = *-Regular,
+    BoldFont = *-Bold,
+    ItalicFont = *-Italic,
+    BoldItalicFont = *-BoldItalic
+  ]{Junicode}
+}{%
+  \IfFontExistsTF{Gentium Plus}{%
+    \newfontfamily\egyptfont{Gentium Plus}
+  }{%
+    \newfontfamily\egyptfont{Times New Roman}
+  }%
+}
+
+% Hititoloji transliterasyonu için Gentium Plus fontu (yoksa Junicode)
+\IfFontExistsTF{Gentium Plus}{%
+  \newfontfamily\hittitefont{Gentium Plus}
+}{%
+  \IfFontExistsTF{Junicode}{%
+    \newfontfamily\hittitefont{Junicode}
+  }{%
+    \newfontfamily\hittitefont{Times New Roman}
+  }%
+}
+
+% Hiyeroglifler için Aegyptus fontu
+\IfFontExistsTF{Aegyptus}{%
+  \newfontfamily\hiero{Aegyptus}
+}{%
+  \newcommand{\hiero}{}%
+}
+
+% Çivi yazısı için UllikummiA fontu
+\IfFontExistsTF{UllikummiA}{%
+  \newfontfamily\cuneiform{UllikummiA}
+}{%
+  \newcommand{\cuneiform}{}%
+}
+
+% Girinti ayarı
+\newlength{\egyphittindent}
+\setlength{\egyphittindent}{1.5em}
+
+% Hiyeroglif ortamı
+\newenvironment{hieroglyphs}
+  {\begin{list}{}{\setlength{\leftmargin}{\egyphittindent}}\item\hiero\Large}
+  {\end{list}}
+
+% Çivi yazısı ortamı
+\newenvironment{cuneiformtext}
+  {\begin{list}{}{\setlength{\leftmargin}{\egyphittindent}}\item\cuneiform\Large}
+  {\end{list}}
+
+% --- HİTİTÇE & MISIRCA SEMANTİK TRANSLİTERASYON KOMUTLARI ---
+
+% 1. Determinatifler (Üst Simge Düz / Roman Superscript)
+\newcommand{\detf}[1]{\textsuperscript{\textup{#1}}}
+\newcommand{\dUR}[1]{\detf{URU}#1}          % Şehir / Yerleşim
+\newcommand{\dD}[1]{\detf{D}#1}              % Tanrı (Dingir)
+\newcommand{\dM}[1]{\detf{m}#1}              % Erkek şahıs
+\newcommand{\dF}[1]{\detf{f}#1}              % Kadın şahıs
+\newcommand{\dGIS}[1]{\detf{GIŠ}#1}          % Ahşap / Nesne
+\newcommand{\dLU}[1]{\detf{LÚ}#1}            % Kişi / Meslek
+\newcommand{\dKUR}[1]{\detf{KUR}#1}          % Ülke / Toprak
+\newcommand{\dE}[1]{\detf{É}#1}              % Ev / Tapınak
+\newcommand{\dKAM}{\detf{KAM}}               % Sayı belirteci
+\newcommand{\dMES}{\detf{MEŠ}}               % Çoğul belirteci
+\newcommand{\dHIA}{\detf{ḪI.A}}              % Çoğul belirteci
+
+% 2. Akkadogramlar (Büyük İtalik / Italic Capitals)
+\newcommand{\akk}[1]{{\textup{\textit{\MakeUppercase{#1}}}}}
+\newcommand{\INA}{\akk{I-NA}}
+\newcommand{\ANA}{\akk{A-NA}}
+\newcommand{\SA}{\akk{ŠA}}
+\newcommand{\U}{\akk{Ù}}
+\newcommand{\QADU}{\akk{QA-DU}}
+\newcommand{\ADI}{\akk{A-DI}}
+\newcommand{\ITTI}{\akk{IT-TI}}
+\newcommand{\UUL}{\akk{U-UL}}
+\newcommand{\MADNANU}{\akk{MA-AD-NA-NU}}
+
+
+% 3. Sümerogramlar (Büyük Düz / Upright Roman Capitals)
+\newcommand{\sumer}[1]{{\hittitefont\upshape\MakeUppercase{#1}}}
+
+
+% 4. Hititçe Fonetik Metin (İtalik Küçük Harf)
+\newcommand{\hit}[1]{{\textit{#1}}}
+
+% 5. Epigrafik ve Filolojik İşaretler (Her zaman DÜZ / DIK - textup)
+\newcommand{\lacuna}[1]{\textup{⸢}#1\textup{⸣}}                % Kısmi korunmuş (yarım parantez)
+\newcommand{\lacunauncertain}[1]{\textup{⟦}#1\textup{⟧}}       % Belirsiz tahrip
+\newcommand{\damage}[1]{\textup{[}#1\textup{]}}                % Kırık / tamamlama (köşeli parantez)
+\newcommand{\omission}[1]{\textup{⟨}#1\textup{⟩}}              % Katip atlaması (açılı ayraç)
+\newcommand{\erasure}[1]{\textup{*}#1\textup{*}}               % Silinti / kazıntı
+\newcommand{\satir}[1]{\makebox[2.2em][r]{\textup{#1}}\hspace{0.8em}\ignorespaces} % Satır numaralandırma
+
+% 6. Tablet Paragraf / Bölüm Çizgileri
+\newcommand{\tabletrule}{\par\vspace{3pt}\hrule height 0.6pt\vspace{5pt}\noindent}
+\newcommand{\tabletruledbl}{\par\vspace{3pt}\hrule height 0.6pt\vspace{1.5pt}\hrule height 0.6pt\vspace{5pt}\noindent}
+
+% Unicode karakter kısayolları
+\providecommand{\alef}{ʾ}
+\providecommand{\ayin}{ʿ}
+\providecommand{\lsubdot}[1]{\d{#1}}
+
+% Köşeli parantezleri ve filolojik işaretleri otomatik dik basma aktivatörü
+\def\activateuprightbrackets{%
+  \catcode`\[=\active
+  \catcode`\]=\active
+}
+\begingroup
+\activateuprightbrackets
+\gdef[{\textup{\string[}}
+\gdef]{\textup{\string]}}
+\endgroup
+
+% --- Mısıroloji Transliterasyon Ortamı (etranslit) ---
+% Madde 4 & 6: Tek satır aralığı (setstretch{1.0}), 11pt, dik parantezler
+\newenvironment{etranslit}{%
+  \par\vspace{0.5em}%
+  \begin{list}{}{\setlength{\leftmargin}{\egyphittindent}\setlength{\rightmargin}{0pt}}%
+  \item\relax%
+  \activateuprightbrackets%
+  \setstretch{1.0}%
+  \fontsize{11pt}{13.5pt}\selectfont\egyptfont\itshape%
+  \raggedright%
+  \def\\{\par\noindent\ignorespaces}%
+  \noindent\ignorespaces%
+}{%
+  \end{list}%
+  \par\vspace{0.5em}%
+}
+
+% --- OTOMATİK HİTİTÇE AYRIŞTIRICI VE DİZGİ MOTORU ---
+% LaTeX3 (expl3) regex motoru ile düz yapıştırılan metin derleme anında işlenir:
+% - Satır sonları ve satır numaraları (1, 2, 9-, 10 vb.) algılanıp \satir{N} yapılır.
+% - Köşeli parantezler ([ ]), yarım parantezler (⸢ ⸣, ⌈ ⌉) ve açılı ayraçlar (< >) her zaman DİK (textup) basılır.
+% - Akkadogramlar (I-NA, A-NA, ŠA, Ù vb.) otomatik BÜYÜK İTALİK yapılır.
+% - Sümerogramlar (LUGAL, KUR, DUMU, ERÍN.MEŠ vb.) otomatik BÜYÜK DÜZ (textup) yapılır.
+% - Determinatifler (URU, GIŠ, m, f, D) otomatik ÜST SİMGE DÜZ yapılır.
+% - Kelime sonundaki dipnot numaraları (Ku-uš-šar226 vb.) üst simge yapılır.
+% - Tablet çizgileri (-----) otomatik \tabletrule yapılır.
+
+\ExplSyntaxOn
+\seq_new:N \l__hitit_lines_seq
+\tl_new:N \l__hitit_line_tl
+\tl_new:N \l__hitit_out_tl
+\seq_new:N \l__hitit_word_parts_seq
+\seq_new:N \l__hitit_word_tokens_seq
+\tl_new:N \l__hitit_word_tl
+\tl_new:N \l__hitit_word_prefix_tl
+\tl_new:N \l__hitit_word_core_tl
+\tl_new:N \l__hitit_word_suffix_tl
+\tl_new:N \l__hitit_word_out_tl
+
+\cs_new_protected:Npn \hitit_auto_process:n #1
+{
+  % Metni satır sonlarından (^^M) parçalara ayır
+  \regex_split:nnN { \r+ } { #1 } \l__hitit_lines_seq
+  \tl_clear:N \l__hitit_out_tl
+
+  \seq_map_inline:Nn \l__hitit_lines_seq
+  {
+    \tl_set:Nn \l__hitit_line_tl { ##1 }
+    \tl_trim_spaces:N \l__hitit_line_tl
+    \tl_if_empty:NF \l__hitit_line_tl
+    {
+      % Satır sonundaki olası \\ komutunu temizle
+      \regex_replace_once:nnN { \s* \c{\\} \s* \Z } { } \l__hitit_line_tl
+
+      % Tablet çizgisi kontrolü (en az 4 adet tire)
+      \regex_match:nnTF { \A -{4,} \Z } { \l__hitit_line_tl }
+      {
+        \tl_set:Nn \l__hitit_line_tl { \c{tabletrule} }
+      }
+      {
+        % Satır başındaki satır numarasını tespit et: 1, 2, 10, 1-, 9-, 1', 2'' vb.
+        \regex_replace_once:nnN { \A ([0-9]+[\'\"]*[\-]?) \s* } { \c{satir}\cB\{\1\cE\} ~ } \l__hitit_line_tl
+
+        % Satır içi otomatik biçimlendirme kuralları
+        \hitit_auto_process_line:N \l__hitit_line_tl
+      }
+
+      % Çıktı listesine ekle ve satırları \par\noindent ile ayır
+      \tl_if_empty:NTF \l__hitit_out_tl
+      {
+        \tl_set_eq:NN \l__hitit_out_tl \l__hitit_line_tl
+      }
+      {
+        \tl_put_right:Nn \l__hitit_out_tl { \par\noindent\ignorespaces }
+        \tl_put_right:No \l__hitit_out_tl { \l__hitit_line_tl }
+      }
+    }
+  }
+  \tl_use:N \l__hitit_out_tl
+}
+
+\cs_generate_variant:Nn \regex_replace_all:nnN { VnN }
+\cs_generate_variant:Nn \regex_split:nnN { nVN }
+\cs_generate_variant:Nn \regex_extract_once:nnNTF { nVNTF }
+\cs_generate_variant:Nn \regex_match:nnTF { nVTF }
+\cs_generate_variant:Nn \seq_if_in:NnTF { NVTF }
+
+\ior_new:N \g__hitit_dict_ior
+\str_new:N \l__hitit_curr_line_str
+\str_new:N \l__hitit_curr_sec_str
+\seq_new:N \g__hitit_akk_words_seq
+\seq_new:N \g__hitit_sum_words_seq
+
+% hitit_sozluk.txt dosyasını derleme anında oku ve regex kalıplarını inşa et:
+\cs_new_protected:Nn \hitit_load_dict:n
+{
+  \file_if_exist:nTF { #1 }
+  {
+    \ior_open:Nn \g__hitit_dict_ior { #1 }
+    \bool_until_do:nn { \ior_if_eof_p:N \g__hitit_dict_ior }
+    {
+      \ior_str_get:NN \g__hitit_dict_ior \l__hitit_curr_line_str
+      \tl_trim_spaces:N \l__hitit_curr_line_str
+      \str_if_empty:NF \l__hitit_curr_line_str
+      {
+        % '#' ile başlayan yorum satırlarını atla
+        \str_if_eq:eeF { \str_head:N \l__hitit_curr_line_str } { \# }
+        {
+          % Bölüm başlıklarını kontrol et: [akkadogram], [sumerogram] vb.
+          \str_if_eq:eeTF { \str_head:N \l__hitit_curr_line_str } { [ }
+          {
+            \str_case:en { \l__hitit_curr_line_str }
+            {
+              { [akkadogram] }   { \str_set:Nn \l__hitit_curr_sec_str { akkadogram } }
+              { [sumerogram] }   { \str_set:Nn \l__hitit_curr_sec_str { sumerogram } }
+            }
+          }
+          {
+            % Sözlük girdilerini regex yerine tam eşleşmeyle karşılaştıracağız.
+            \tl_set_rescan:Nno \l_tmpa_tl { } { \l__hitit_curr_line_str }
+
+            \str_case:Vn \l__hitit_curr_sec_str
+            {
+              { akkadogram }
+              {
+                \seq_gput_right:NV \g__hitit_akk_words_seq \l_tmpa_tl
+              }
+              { sumerogram }
+              {
+                \seq_gput_right:NV \g__hitit_sum_words_seq \l_tmpa_tl
+              }
+            }
+          }
+        }
+      }
+    }
+    \ior_close:N \g__hitit_dict_ior
+  }
+  {
+    % Dosya yoksa dahili varsayılan kelime listeleri devrededir:
+    \seq_gset_from_clist:Nn \g__hitit_akk_words_seq { {I-NA}, {A-NA}, {ŠA}, {Ù}, {QA-DU}, {A-DI}, {IT-TI}, {MA-A}, {U-UL}, {MA-AD-NA-NU} }
+    \seq_gset_from_clist:Nn \g__hitit_sum_words_seq { {É}, {KUR}, {LÚ}, {GUD}, {DIM}, {UTU} }
+  }
+}
+
+% Sözlüğü yükle:
+\hitit_load_dict:n { hitit_sozluk.txt }
+
+\cs_new_protected:Npn \hitit_format_word:n #1
+{
+  \tl_set:Nn \l__hitit_word_tl { #1 }
+  \tl_if_in:NnTF \l__hitit_word_tl { \detf }
+    { \tl_put_right:NV \l__hitit_word_out_tl \l__hitit_word_tl }
+    {
+      \tl_if_in:NnTF \l__hitit_word_tl { \akk }
+        { \tl_put_right:NV \l__hitit_word_out_tl \l__hitit_word_tl }
+        {
+          \tl_if_in:NnTF \l__hitit_word_tl { \sumer }
+            { \tl_put_right:NV \l__hitit_word_out_tl \l__hitit_word_tl }
+            {
+              \regex_match:nVTF { \cC. } \l__hitit_word_tl
+                { \tl_put_right:NV \l__hitit_word_out_tl \l__hitit_word_tl }
+                {
+              \regex_extract_once:nVNTF
+                { \A ([^A-Za-z0-9ÇĞİÖŞÜçğıöşüÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝéíùúàáâèêìîòôûýḪḫṮṯŠš\p{M}]* ) ([A-Za-z0-9ÇĞİÖŞÜçğıöşüÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝéíùúàáâèêìîòôûýḪḫṮṯŠš\p{M}]+ (?: [-.] [A-Za-z0-9ÇĞİÖŞÜçğıöşüÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝéíùúàáâèêìîòôûýḪḫṮṯŠš\p{M}]+ )* ) ([^A-Za-z0-9ÇĞİÖŞÜçğıöşüÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝéíùúàáâèêìîòôûýḪḫṮṯŠš\p{M}]* ) \Z }
+                \l__hitit_word_tl \l__hitit_word_parts_seq
+                {
+                  \seq_pop_left:NN \l__hitit_word_parts_seq \l_tmpa_tl
+                  \seq_pop_left:NN \l__hitit_word_parts_seq \l__hitit_word_prefix_tl
+                  \seq_pop_left:NN \l__hitit_word_parts_seq \l__hitit_word_core_tl
+                  \seq_pop_left:NN \l__hitit_word_parts_seq \l__hitit_word_suffix_tl
+                  \seq_if_in:NVTF \g__hitit_akk_words_seq \l__hitit_word_core_tl
+                    { \tl_set:Nn \l_tmpb_tl { \akk } }
+                    {
+                      \seq_if_in:NVTF \g__hitit_sum_words_seq \l__hitit_word_core_tl
+                        { \tl_set:Nn \l_tmpb_tl { \sumer } }
+                        {
+                          \regex_match:nVTF
+                            { \A (?! (?: URU | GIŠ | MEŠ ) \Z ) [A-ZÇĞİÖŞÜÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝḪṬŠ\p{M}]{2,} (?: [-.] [A-ZÇĞİÖŞÜÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝḪṬŠ\p{M}]+ )* \Z }
+                            \l__hitit_word_core_tl
+                            { \tl_set:Nn \l_tmpb_tl { \sumer } }
+                            { \tl_clear:N \l_tmpb_tl }
+                        }
+                    }
+                  \tl_if_empty:NTF \l_tmpb_tl
+                    {
+                      \tl_set:Nx \l_tmpa_tl
+                        {
+                          \exp_not:V \l__hitit_word_prefix_tl
+                          \exp_not:V \l__hitit_word_core_tl
+                          \exp_not:V \l__hitit_word_suffix_tl
+                        }
+                    }
+                    {
+                      \tl_set:Nx \l_tmpa_tl
+                        {
+                          \exp_not:V \l__hitit_word_prefix_tl
+                          \exp_not:V \l_tmpb_tl
+                          { \exp_not:V \l__hitit_word_core_tl }
+                          \exp_not:V \l__hitit_word_suffix_tl
+                        }
+                    }
+                  \tl_put_right:NV \l__hitit_word_out_tl \l_tmpa_tl
+                }
+                { \tl_put_right:NV \l__hitit_word_out_tl \l__hitit_word_tl }
+                }
+            }
+        }
+    }
+}
+
+\cs_new_protected:Npn \hitit_format_words:N #1
+{
+  \seq_clear:N \l__hitit_word_tokens_seq
+  \regex_split:nVN { (\s+) } #1 \l__hitit_word_tokens_seq
+  \tl_clear:N \l__hitit_word_out_tl
+  \seq_map_inline:Nn \l__hitit_word_tokens_seq
+    {
+      \regex_match:nnTF { \A \s+ \Z } { ##1 }
+        { \tl_put_right:Nn \l__hitit_word_out_tl { ##1 } }
+        { \hitit_format_word:n { ##1 } }
+    }
+  \tl_set_eq:NN #1 \l__hitit_word_out_tl
+}
+
+\cs_new_protected:Nn \hitit_auto_process_line:N
+{
+  % MEŠ son eklerini sözcük biçimlendirmesinden önce ayır: araya giren
+  % \detf komutu, GIGIR/ERÍN gibi taban sözcüğün eşleşmesini kesmemeli.
+  \regex_replace_all:nnN
+    { \b D \. MEŠ (\s|\]|\||\-|\Z) }
+    { \c{detf}\cB\{D\cE\}\c{detf}\cB\{MEŠ\cE\}\1 } #1
+  \regex_replace_all:nnN
+    { \b ([A-ZÇĞİÖŞÜÉÍÙÚÀÁÂÈÊÌÎÒÓÔÛÝḪṬŠ\p{M}]+) \.? \s* MEŠ (\s|\]|\||\-|\Z) }
+    { \c{sumer}\cB\{\1\cE\}\c{detf}\cB\{MEŠ\cE\}\2 } #1
+  \regex_replace_all:nnN
+    { \b MEŠ (\s|\]|\||\-|\Z) }
+    { \c{detf}\cB\{MEŠ\cE\}\1 } #1
+
+  % Önce Sümerogramları biçimlendir; sonra determinatifleri ekle ki
+  % bu komutlar sonraki sözcüğün eşleşmesini kesmesin.
+  \regex_replace_all:nnN
+    { \b (LUGAL (?: \. GAL )?) \b }
+    { \c{sumer}\cB\{\1\cE\} } #1
+  \hitit_format_words:N #1
+
+  % Son ek belirteçlerini ve dipnotları biçimlendirilmiş sözcüklere ekle.
+  \regex_replace_all:nnN { ([a-zA-ZçğıöşüḫḪṯṮšŠ\>⟩⸣\?])([0-9]{2,4}) \b } { \1 \c{detf}\cB\{\2\cE\} } #1
+  % Determinatiflerin kendisini üstsimge yap. Sonraki harfi tüketme;
+  % böylece bitişik ya da ayrı yazılan Sümerogramlar işlenmiş kalır.
+  \regex_replace_all:nnN { \b URU } { \c{detf}\cB\{URU\cE\} } #1
+  \regex_replace_all:nnN { \b GIŠ } { \c{detf}\cB\{GIŠ\cE\} } #1
+  \regex_replace_all:nnN { \b m } { \c{detf}\cB\{m\cE\} } #1
+  \regex_replace_all:nnN { \b f } { \c{detf}\cB\{f\cE\} } #1
+  \regex_replace_all:nnN { \b D (?= \s | \. ) } { \c{detf}\cB\{D\cE\} } #1
+
+  % 4. Akkadogram son ekleri:
+  \regex_replace_all:nnN { \- (ŠU|ŠI|YA|NI|ŠU\-NU) \b } { \-\c{akk}\cB\{\1\cE\} } #1
+
+  % 5. Parantezler ve epigrafik işaretler her zaman dik basılır:
+  \regex_replace_all:nnN { < } { \c{textup}\cB\{⟨\cE\} } #1
+  \regex_replace_all:nnN { > } { \c{textup}\cB\{⟩\cE\} } #1
+  \regex_replace_all:nnN { ⟨ } { \c{textup}\cB\{⟨\cE\} } #1
+  \regex_replace_all:nnN { ⟩ } { \c{textup}\cB\{⟩\cE\} } #1
+  \regex_replace_all:nnN { \[ } { \c{textup}\cB\{[\cE\} } #1
+  \regex_replace_all:nnN { \] } { \c{textup}\cB\{]\cE\} } #1
+  \regex_replace_all:nnN { ⸢ } { \c{textup}\cB\{⸢\cE\} } #1
+  \regex_replace_all:nnN { ⸣ } { \c{textup}\cB\{⸣\cE\} } #1
+  \regex_replace_all:nnN { ⌈ } { \c{textup}\cB\{⌈\cE\} } #1
+  \regex_replace_all:nnN { ⌉ } { \c{textup}\cB\{⌉\cE\} } #1
+  \regex_replace_all:nnN { \| } { \c{textup}\cB\{|\cE\} } #1
+}
+
+\cs_set_eq:NN \hititautoprocess \hitit_auto_process:n
+\ExplSyntaxOff
+
+% --- Standart Hititçe Transliterasyon Ortamı (htranslit) ---
+% Tek satır aralığı (setstretch{1.0}), 11/13pt, Gentium Plus, tam otomatik biçimlendirme
+\BeforeBeginEnvironment{htranslit}{\begingroup\obeylines}
+\AfterEndEnvironment{htranslit}{\endgroup}
+
+\NewEnviron{htranslit}{%
+  \par\vspace{0.5em}%
+  \begin{list}{}{\setlength{\leftmargin}{\egyphittindent}\setlength{\rightmargin}{0pt}}%
+  \item\relax%
+  \setstretch{1.0}%
+  \fontsize{11pt}{13pt}\selectfont\hittitefont\itshape%
+  \raggedright%
+  \def\\{\par\noindent\ignorespaces}%
+  \noindent%
+  \expanded{\noexpand\hititautoprocess{\unexpanded\expandafter{\BODY}}}%
+  \end{list}%
+  \par\vspace{0.5em}%
+}
+
+% hititoto ortamı htranslit ile tam uyumlu bir takma addır
+\BeforeBeginEnvironment{hititoto}{\begingroup\obeylines}
+\AfterEndEnvironment{hititoto}{\endgroup}
+
+\NewEnviron{hititoto}{%
+  \par\vspace{0.5em}%
+  \begin{list}{}{\setlength{\leftmargin}{\egyphittindent}\setlength{\rightmargin}{0pt}}%
+  \item\relax%
+  \setstretch{1.0}%
+  \fontsize{11pt}{13pt}\selectfont\hittitefont\itshape%
+  \raggedright%
+  \def\\{\par\noindent\ignorespaces}%
+  \noindent%
+  \expanded{\noexpand\hititautoprocess{\unexpanded\expandafter{\BODY}}}%
+  \end{list}%
+  \par\vspace{0.5em}%
+}
+
+\endinput
