@@ -1,0 +1,19 @@
+// ==============================================================================
+// İSTANBUL ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ
+// KAYNAKÇA / BİBLİYOGRAFYA (Madde 22)
+// ==============================================================================
+
+// Sayfa numarası ve içindekiler tablosu ayarlarını korumak için başlığı özelleştiriyoruz
+#heading(level: 1, numbering: none, outlined: true)[KAYNAKÇA]
+
+// SBE Madde 22 uyarınca kaynakça metni tek satır aralıklı olmalıdır
+#set text(size: 11pt)
+#set par(leading: 0.6em, justify: true, first-line-indent: 0cm)
+
+// Typst yerleşik kaynakça motorunu çağırıyoruz:
+// 'kaynaklar.bib' dosyanızı bağlar ve yazarların soyadına göre alfabetik dizer.
+#bibliography(
+  "kaynakca.bib", 
+  title: none, // Başlığı yukarıda elle eklediğimiz için burada gizliyoruz
+  style: "apa" // İstanbul Üniversitesi standartlarına en uygun asılı girintili stil
+)
