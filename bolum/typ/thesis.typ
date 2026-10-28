@@ -1,7 +1,11 @@
 // ==============================================================================
 // İSTANBUL ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ TEZ MASTER DOSYASI
 // ==============================================================================
-
+// Put this at the top of your document
+#set par(
+  first-line-indent: (amount: 1.5em, all: true),
+  justify: true
+)
 // 1. iusosbil.typ dosyasındaki kuralları ve filolojik fonksiyonları içeri aktar
 #import "iusosbil.typ": iusosbil_tez, translit, alef, ayin, tabletrule, sumer, sup
 

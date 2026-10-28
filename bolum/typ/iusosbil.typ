@@ -9,8 +9,6 @@
 ) = {
   
   // ---------- Sayfa Kenar Boşlukları (Madde 4/a) ----------
-  // Sol: 4cm, Üst: 4cm, Sağ: 2.5cm, Alt: 2.5cm
-  // footskip: 1.3cm fancyhdr mantığı alt kenardan numara boşluğu ile ayarlandı.
   set page(
     paper: "a4",
     margin: (top: 4cm, bottom: 2.5cm, left: 4cm, right: 2.5cm),
@@ -18,24 +16,23 @@
   )
   
   // ---------- Motor Tespiti & Dil / Tipografi Yapılandırması ----------
-  // Ana Metin: Times New Roman, 12 punto
-  // Satır aralığı: yönerge Madde 4/b uyarınca 1,5 satır.
-  set text(font: "Times New Roman", size: 12pt, lang: "tr")
+  set text(font: ("Times New Roman", "Times"), size: 12pt, lang: "tr")
+
   set par(
-    justify: true, 
-    leading: 1.5em, 
-    first-line-indent: 1cm, 
-    spacing: 1pt // Paragraflar arası ek boşluk bırakılmaz (\parskip=0pt)
+    justify: true,
+    leading: 1.5em,                               // Satır arası boşluk (1.5 satır)
+    first-line-indent: (amount: 1cm, all: true), // Her paragrafın ilk satırını 1 cm içeri alır
+    spacing: 1.5em                                // Paragraf blokları arasındaki boşluk
   )
 
   // Yönerge başlık hiyerarşisi: 1, 1.1, 1.1.1, ...
   set heading(numbering: "1.1")
   
-  // ---------- Başlık Biçimlendirmeleri (Madde 5/a) ----------
-  // Tüm başlıklar (Kısım, bölüm, altbölüm) 14 punto ve KALIN (bfseries) olacaktır.
+  // ---------- Başlık Biçimlendirmeleri (Madde 5/a) & Dipnot Sıfırlama ----------
   
-  // 1. Düzey Başlık (Bölüm / Chapter): 14pt, Kalın, Ortalı
+  // 1. Düzey Başlık (Bölüm / Chapter): 14pt, Kalın, Ortalı + Dipnot Sayacı Sıfırlama
   show heading.where(level: 1): it => {
+    counter(footnote).update(0) // Her yeni ana bölümde dipnot sayacını sıfırla
     pagebreak(weak: true)
     v(0pt) // Üst boşluk
     align(center)[
@@ -66,12 +63,10 @@
   }
 
   // ---------- Dipnot Düzeni (Madde 4/b, 5/a, 19/a) ----------
-  // Dipnotlar 10 punto, tek satır aralıklı (leading: 0.5em) ve iki yana yaslıdır.
-  // Her yeni ana bölümde (level: 1 heading) dipnot sayacı otomatik sıfırlanır.
+  // Dipnotlar 10 punto, tek satır aralıklı ve iki yana yaslı
   show footnote.entry: set text(size: 10pt)
-  show footnote.entry: set par(leading: 1em, justify: true, first-line-indent: 0cm)
-  show heading.where(level: 1): it => {
-    counter(footnote).update(0) // \counterwithin*{footnote}{chapter} karşılığı
+  show footnote.entry: it => {
+    set par(leading: 0.65em, justify: true, first-line-indent: 0cm)
     it
   }
 
@@ -79,25 +74,24 @@
 }
 
 // ---------- Filolojik / Mısıroloji / Transliterasyon Fonksiyonları ----------
-// .cls içindeki \translit, \alef, \ayin ve regex parantez dikleştirme makroları:
 #let translit(body) = {
-  set text(font: "Times New Roman", size: 11pt, style: "italic")
+  set text(font: ("Times New Roman", "Times"), size: 11pt, style: "italic")
   set par(leading: 1em) // Tek satır aralığı
   
-  // .cls dosyasındaki filolojik köşeli parantezleri (\textup) otomatik DÜZ yapma kuralı:
-  show "[" : set text(style: "normal")
-  show "]" : set text(style: "normal")
-  show "⸢" : set text(style: "normal")
-  show "⸣" : set text(style: "normal")
-  show "⟨" : set text(style: "normal")
-  show "⟩" : set text(style: "normal")
+  // Filolojik köşeli parantezleri dik (normal) yapma kuralı
+  show "[": set text(style: "normal")
+  show "]": set text(style: "normal")
+  show "⸢": set text(style: "normal")
+  show "⸣": set text(style: "normal")
+  show "⟨": set text(style: "normal")
+  show "⟩": set text(style: "normal")
   
   body
 }
 
-#let alef = text(font: "Times New Roman", size: 11pt, style: "italic")[ꜣ]
-#let ayin = text(font: "Times New Roman", size: 11pt, style: "italic")[ꜥ]
+#let alef = text(font: ("Times New Roman", "Times"), size: 11pt, style: "italic")[ꜣ]
+#let ayin = text(font: ("Times New Roman", "Times"), size: 11pt, style: "italic")[ꜥ]
 #let tabletrule = line(length: 40%, stroke: 0.5pt)
 
-#let sumer(body) = text(font: "Times New Roman", style: "normal")[#body]
+#let sumer(body) = text(font: ("Times New Roman", "Times"), style: "normal")[#body]
 #let sup(body) = super(body)

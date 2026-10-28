@@ -11,7 +11,7 @@
 
 Giriş kısmında, önsözde belirtilen hususlar tekrar edilmemek üzere, çalışmada çözümlenmesi amaçlanan bilimsel sorun/sorunsal etraflıca tanımlanır. Bu doğrultuda araştırmada yararlanılan kavramsal çerçeve, kuramsal dayanaklar, yöntem, teknik ve varsa kullanılan paradigmalar ayrıntılı bir biçimde açıklanır (Madde 16/b).
 \
-
+  #v(1.5em)
 Tez metninde satırlar iki yana yaslanmış ve 1,5 satır aralığı ile yazılmıştır (Madde 4/b). Paragraflar arasında gereksiz dikey boşluk bırakılmamış, standart 1 cm paragraf girintisi uygulanmıştır. 
-
+  #v(1.5em)
 Araştırma konusuna ilişkin genel değerlendirmeler ve tezin kurgusu Giriş kısmında ortaya konulduktan sonra, tezi sonuca ulaştıracak temel bölümlere geçilmektedir.

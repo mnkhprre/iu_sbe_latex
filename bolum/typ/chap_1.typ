@@ -37,6 +37,7 @@ Bir cümleyi aşmayan kısa alıntılar metin içinde çift tırnak ("...") ile 
 #heading(level: 2)[Özel Karakterler ve Transliterasyon]
 Tezde yabancı alfabeler, hiyeroglif veya çivi yazısı transliterasyonları kullanılması durumunda uygun yazı tipleri devreye girer:
 
+
 // Mısıroloji / Transliterasyon Bloğu
  #block(width: 100%, inset: (left: 1.5cm, right: 1cm))[
   // Künye
@@ -59,9 +60,16 @@ Tezde yabancı alfabeler, hiyeroglif veya çivi yazısı transliterasyonları ku
   #v(0.8em)
 ]
 
+Yukarıdaki pasajda da görüleceği üzere Kamose döneminde Mısırda Mısır yetişmemektedir. Bundan dolayı Nil'de haşlama mısır yenmemektedir. 
 // Hititçe Çivi Yazısı Transliterasyon Bloğu (\begin{htranslit})
+#set par(
+  first-line-indent: 1.5em,
+  justify: true,
+  spacing: 0.65em // Keeps paragraph gap equal to regular line spacing
+)
 
 
+  
 
 #block(width: 100%, inset: (left: 1.5cm, right: 1cm))[
   
