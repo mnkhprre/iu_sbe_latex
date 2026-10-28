@@ -12,7 +12,7 @@
   TEZ ONAY SAYFASI
 ]
 
-#v(1cm)
+#v(0.5cm)
 
 İstanbul Üniversitesi Sosyal Bilimler Enstitüsü *..................................* Anabilim Dalı *..................................* Bilim Dalı'nda *......................* numaralı *..................................*'nın hazırladığı *“................................................”* konulu *YÜKSEK LİSANS / DOKTORA TEZİ*, jürimiz tarafından *..... / ..... / 2026* tarihinde yapılan tez savunma sınavında başarılı bulunarak kabul edilmiştir.
 

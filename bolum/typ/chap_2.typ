@@ -31,8 +31,7 @@
 ) <tab_degiskenler>
 
   // Çapraz referans için etiket
-
-Tablo @tab_degiskenler incelendiğinde, örneklem gruplarının oransal dağılımı görülmektedir. Tablo ve şekillerin numaralandırılmasında Arap veya Romen rakamları tutarlı biçimde kullanılır (Madde 3/b).
+@tab_degiskenler incelendiğinde, örneklem gruplarının oransal dağılımı görülmektedir. Tablo ve şekillerin numaralandırılmasında Arap veya Romen rakamları tutarlı biçimde kullanılır (Madde 3/b).
 
 #heading(level: 2)[Kurumsal Yapı ve Karşılaştırmalı Değerlendirme]
 

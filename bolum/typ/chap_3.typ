@@ -12,15 +12,15 @@
 
 #heading(level: 3)[Alt Boyutlar ve Kuramsal Yansımalar]
 
-Bu alt başlıkta, kuram ile uygulama arasındaki uyum veya farklılaşma noktaları irdelenmektedir.
+#lorem(200)
 
 #heading(level: 4)[Birinci Alt Boyut: Yapısal Faktörler]
 
-Yapısal unsurlar, kurumsal mekanizmaların işleyişi üzerinde belirleyici role sahiptir.
+#lorem(100)
 
 #heading(level: 4)[İkinci Alt Boyut: İşlevsel Dinamikler]
 
-İşlevsel dinamikler ise kurumsal dönüşümlerin hızını ve yönünü tayin etmektedir.
+#lorem(100)
 
 #heading(level: 2)[Çalışmanın Sınırları ve Yöntemsel Kısıtlar]
 
